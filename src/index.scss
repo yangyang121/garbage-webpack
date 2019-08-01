@@ -1,0 +1,27 @@
+header {
+  > a {
+    margin-right: 7px;
+  }
+}
+
+.select-unit {
+  background: blue;
+  color: #fff;
+}
+.mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  opacity: 0;
+  z-index: 100;
+}
+.option-modal {
+  position: absolute;
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 8px;
+  background: #eee;
+}
