@@ -109,6 +109,16 @@ export const _new = (fn, ...rest) => {
   return ret instanceof Object ? ret : obj
 }
 
+export const _instanceof = (left, right) => {
+  const o = right.prototype
+  let l = left._proto_
+  while (true) {
+    if (l === null) return false
+    if (l === o) return true
+    l = l._proto_ 
+  }
+}
+
 Function.prototype.myCall = function(obj, ...rest) {
   obj._fn_ = this
   const val = obj._fn_(...rest)
