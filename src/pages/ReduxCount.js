@@ -37,6 +37,8 @@ class ReduxCount extends React.Component {
         </Button>
         <hr />
         <ReduxComponent />
+        <hr />
+        {componentCount}
       </div>
     );
   }
