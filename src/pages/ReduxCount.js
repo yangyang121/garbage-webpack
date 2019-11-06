@@ -1,12 +1,14 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import { Button } from "antd"
-import * as countActions from "../actions/count"
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Button } from "antd";
+import * as countActions from "../actions/count";
+import ReduxComponent from "../components/reduxComponent";
 
 @connect(
   state => ({
-    count: state.countReducer.count
+    count: state.countReducer.count,
+    componentCount: state.reduxComponentReducer.count
   }),
   dispatch => ({
     actions: bindActionCreators(countActions, dispatch)
@@ -14,11 +16,11 @@ import * as countActions from "../actions/count"
 )
 class ReduxCount extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
-    const { count } = this.props
+    const { count, componentCount } = this.props;
     return (
       <div>
         <p>{count}</p>
@@ -33,9 +35,11 @@ class ReduxCount extends React.Component {
         >
           +
         </Button>
+        <hr />
+        <ReduxComponent />
       </div>
-    )
+    );
   }
 }
 
-export default ReduxCount
+export default ReduxCount;

@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Table, Input, Button } from "antd"
 import * as listActions from "../actions/list"
-import WorkSpeceFn from 'dlog'
+// import WorkSpeceFn from 'dlog'
 
 let isDown = false
 let startIndex = 0
@@ -32,8 +32,8 @@ class List extends React.Component {
 
   componentDidMount() {
     this.props.actions.getList()
-    const arr = WorkSpeceFn()
-    console.log(arr)
+    // const arr = WorkSpeceFn()
+    // console.log(arr)
     this.setState({
       arr: data.split("").map((item, index) => ({
         isSelect: false,
