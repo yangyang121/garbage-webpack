@@ -115,30 +115,109 @@ export const _instanceof = (left, right) => {
   while (true) {
     if (l === null) return false
     if (l === o) return true
-    l = l._proto_ 
+    l = l._proto_
   }
+}
+
+export const _showExtends = () => {
+  function object(o) {
+    function F() {}
+    F.prototype = o
+    return new F()
+  }
+  function prototype(parent, child) {
+    const prototype = object(parent.prototype)
+    prototype.constructor = child
+    child.prototype = prototype
+  }
+  function Person(name) {
+    this.name = name
+  }
+  Person.prototype.sayHi = function() {
+    console.log(`My name is ${this.name}.`)
+  }
+  function Man(name, age) {
+    Person.call(this, name)
+    this.age = age
+  }
+  // 会让Person执行两次
+  // Man.prototype = new Person()
+  prototype(Person, Man)
+  Man.prototype.work = function() {
+    console.log(`I am ${this.age} years old, and I work 965`)
+  }
+
+  const man = new Man("yy", 24)
+
+  man.sayHi()
+  man.work()
 }
 
 Function.prototype.myCall = function(obj, ...rest) {
   obj._fn_ = this
-  const val = obj._fn_(...rest)
+  const val = eval(`obj._fn_(${rest.join()})`)
   delete obj._fn_
   return val
+  // es5
+  var context = obj || window
+  context.fn = this
+
+  var args = []
+  for (var i = 1, len = arguments.length; i < len; i++) {
+    args.push("arguments[" + i + "]")
+  }
+
+  var result = eval("context.fn(" + args + ")")
+
+  delete context.fn
+  return result
 }
 
 Function.prototype.myApply = function(obj, rest) {
+  // es6
   obj._fn_ = this
   const val = obj._fn_(...rest)
   delete obj._fn_
   return val
+  // es5
+  var context = Object(obj) || window
+  context.fn = this
+  var result = null
+  if (!arr) {
+    result = context.fn()
+  } else {
+    var args = []
+    for (var i = 0, len = arr.length; i < len; i++) {
+      args.push("arr[" + i + "]")
+    }
+    result = eval("context.fn(" + args + ")")
+  }
+
+  delete context.fn
+  return result
 }
 
-Function.prototype.myBind = function(obj, ...args1) {
-  return (...args2) => {
-    const args = args1.concat(args2)
-    obj._fn_ = this
-    const val = obj._fn_(...args)
-    delete obj._fn_
-    return val
+Function.prototype.myBind = function(context) {
+  if (typeof this !== "function") {
+    throw new Error(
+      "Function.prototype.bind - what is trying to be bound is not callable"
+    )
   }
+
+  const self = this
+  const args = Array.prototype.slice.call(arguments, 1)
+
+  const fNOP = function() {}
+
+  const fBound = function() {
+    const bindArgs = Array.from(arguments)
+    return self.apply(
+      this instanceof fNOP ? this : context,
+      args.concat(bindArgs)
+    )
+  }
+
+  fNOP.prototype = this.prototype
+  fBound.prototype = new fNOP()
+  return fBound
 }

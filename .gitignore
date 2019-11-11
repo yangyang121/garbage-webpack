@@ -3,3 +3,5 @@
 package-lock.json
 /.vscode
 yarn.lock
+/dlog/yarn.lock
+/dlog/node_modules
