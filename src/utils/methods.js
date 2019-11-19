@@ -111,11 +111,12 @@ export const _new = (fn, ...rest) => {
 
 export const _instanceof = (left, right) => {
   const o = right.prototype
-  let l = left._proto_
+  // let l = left._proto_
+  let l = Object.getPrototypeOf(left)
   while (true) {
     if (l === null) return false
     if (l === o) return true
-    l = l._proto_
+    l = Object.getPrototypeOf(l)
   }
 }
 
@@ -151,6 +152,14 @@ export const _showExtends = () => {
 
   man.sayHi()
   man.work()
+}
+
+export const objectIs = (x, y) => {
+  if (x === y) {
+    return x !== 0 || 1 / x === 1 / y
+  } else {
+    return x !== x && y !== y
+  }
 }
 
 Function.prototype.myCall = function(obj, ...rest) {
@@ -216,8 +225,12 @@ Function.prototype.myBind = function(context) {
       args.concat(bindArgs)
     )
   }
-
-  fNOP.prototype = this.prototype
+  // 维护原型关系
+  if (this.prototype) {
+    // 当执行Function.prototype.bind()时, this为Function.prototype 
+    // this.prototype(即Function.prototype.prototype)为undefined
+    fNOP.prototype = this.prototype; 
+  }
   fBound.prototype = new fNOP()
   return fBound
 }
