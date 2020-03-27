@@ -1,20 +1,14 @@
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
+import { shuffleKeyboard } from "../utils";
 
 interface Props {
+  visible: boolean;
   passwordCount: number;
+  className: string;
+  handleChange: (arr: number[]) => void;
 }
 
-export const shuffleKeyboard = () => {
-  const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  let i = arr.length - 1;
-  while (i > 0) {
-    const changeNum = Math.floor(Math.random() * (i - 1));
-    [arr[i], arr[changeNum]] = [arr[changeNum], arr[i]];
-    i--;
-  }
-  return arr;
-};
 const shuffleArr = shuffleKeyboard();
 
 function KeyBoard(props: Props) {
@@ -23,19 +17,24 @@ function KeyBoard(props: Props) {
   function handleAdd(value: number) {
     const result = password.concat(value);
     if (password.length < props.passwordCount) {
-      if (result.length === props.passwordCount) {
-        console.log("complete", result);
-      }
       setPassword(result);
+      if (result.length === props.passwordCount) {
+        setPassword([]);
+      }
+      props.handleChange(result);
     }
   }
 
   function handleDelete() {
     setPassword(password.slice(0, -1));
+    props.handleChange(password.slice(0, -1));
   }
 
   return (
-    <div>
+    <div
+      className={props.className}
+      style={{ display: props.visible ? "block" : "none" }}
+    >
       <div>
         <div className="password-value-wrap">
           {Array.from({ length: props.passwordCount }).map((_, index) => (
@@ -73,7 +72,10 @@ function KeyBoard(props: Props) {
 }
 
 KeyBoard.defaultProps = {
-  passwordCount: 6
+  visible: false,
+  passwordCount: 6,
+  className: "",
+  handleChange: (arr: number[]) => {}
 };
 
 export default KeyBoard;
