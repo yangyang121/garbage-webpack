@@ -40,7 +40,7 @@ export const limitRequest = (
       }
     });
   };
-  while (index < limit) {
+  while (index < Math.min(limit, requestArr.length)) {
     handleRequest(requestArr[index++]);
   }
 };
