@@ -14,14 +14,12 @@ export const shuffleKeyboard = () => {
   return arr;
 };
 
-const mockRequest = (url: string) => {
-  console.log(url);
-  return new Promise((resolve, reject) => {
+const mockRequest = (url: string) =>
+  new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({ response: url });
     }, Math.floor(Math.random() * 10) * 1000);
   });
-};
 
 export const limitRequest = (
   limit: number,
@@ -43,4 +41,24 @@ export const limitRequest = (
   while (index < Math.min(limit, requestArr.length)) {
     handleRequest(requestArr[index++]);
   }
+};
+
+type UniversalObject = {
+  [propname: string]: string;
+};
+
+export const printf = (str: string, obj: UniversalObject) => {
+  let result = str;
+  let startIndex = result.indexOf("${");
+  let endIndex = result.indexOf("}");
+  while (startIndex > -1 && endIndex > -1) {
+    result =
+      result.slice(0, startIndex) +
+      obj[result.slice(startIndex + 2, endIndex)] +
+      result.slice(endIndex + 1);
+    startIndex = result.indexOf("${");
+    endIndex = result.indexOf("}");
+  }
+
+  console.log(result);
 };

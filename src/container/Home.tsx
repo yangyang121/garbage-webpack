@@ -1,5 +1,5 @@
 import React from "react";
-import { limitRequest, IRequest } from "../utils";
+import { limitRequest, IRequest, printf } from "../utils";
 
 function Home() {
   const requestArr: IRequest[] = [
@@ -68,6 +68,7 @@ function Home() {
     console.log("complete");
   };
   limitRequest(5, requestArr, complete);
+  printf("My name is ${name}, my age is ${age}.", { name: "YY", age: "25" });
   return <div>Home</div>;
 }
 
