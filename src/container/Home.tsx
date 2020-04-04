@@ -1,7 +1,7 @@
 import React from "react";
-import { limitRequest, IRequest, printf } from "../utils";
+import { limitRequest, IRequest, printf, convertToRMB } from "../utils";
 
-function Home() {
+function utilsDemo() {
   const requestArr: IRequest[] = [
     {
       url: "/one",
@@ -69,6 +69,22 @@ function Home() {
   };
   limitRequest(5, requestArr, complete);
   printf("My name is ${name}, my age is ${age}.", { name: "YY", age: "25" });
+  convertToRMB(99999999);
+  convertToRMB(1100);
+  convertToRMB(101);
+  convertToRMB(99);
+  convertToRMB(347);
+  convertToRMB(9090);
+  convertToRMB(9009);
+  convertToRMB(3400000);
+  convertToRMB(3040300);
+  convertToRMB(30404030);
+  convertToRMB(30000004);
+  convertToRMB(30000040);
+}
+
+function Home() {
+  utilsDemo()
   return <div>Home</div>;
 }
 
