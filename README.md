@@ -14,4 +14,4 @@
 
 - [ ] React Hook
 
-- [ ] Gedux：redux 的简洁实现
+- [x] Gedux：redux 的简洁实现

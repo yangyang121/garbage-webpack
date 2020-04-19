@@ -1,4 +1,8 @@
-export default function (reducer: any) {
+export default function createStore(reducer: any, enhancer?: any) {
+  if (typeof enhancer === "function") {
+    return enhancer(createStore)(reducer);
+  }
+
   let state: any = undefined;
   let listeners: any = [];
 
@@ -20,6 +24,7 @@ export default function (reducer: any) {
       const listener = listeners[i];
       listener();
     }
+    return action;
   }
 
   dispatch({ type: "init" });
