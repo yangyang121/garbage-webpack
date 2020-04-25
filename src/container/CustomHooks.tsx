@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Spin, Button } from "antd";
 import useLoading from "../component/useLoading";
+import { RootState, Dispatch } from "../store";
 
 const mockRequest = () => {
   return new Promise((resolve, reject) => {
@@ -12,18 +14,21 @@ const mockRequest = () => {
 
 function CustomHooks() {
   const [loading, load] = useLoading();
-  const [loadIndex, setLoadIndex] = useState<number>(1);
+  const count = useSelector((state: RootState) => state.count);
+  const dispatch = useDispatch<Dispatch>();
   useEffect(() => {
-    load(mockRequest().then(res => console.log(res)));
-  }, [loadIndex]);
+    load(mockRequest().then((res) => console.log(res)));
+  }, []);
   return (
-    <div>
-      <span>UseLoading</span>
-      <Spin spinning={loading}>
-        <Button onClick={() => setLoadIndex(loadIndex + 1)}>刷新</Button>
-        <div>{loadIndex}</div>
-      </Spin>
-    </div>
+    <Spin spinning={loading}>
+      <p>{count}</p>
+      <p>
+        <Button type="primary" onClick={() => dispatch.count.increment(1)}>
+          Add
+        </Button>
+      </p>
+      <Button onClick={() => load(dispatch.count.incrementAsync())}>Async Add</Button>
+    </Spin>
   );
 }
 
