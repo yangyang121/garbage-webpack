@@ -11,5 +11,3 @@
 - [ ] 库：Rxjs
 
 - [ ] React Hook
-
-- [x] Gedux：redux 的简洁实现
