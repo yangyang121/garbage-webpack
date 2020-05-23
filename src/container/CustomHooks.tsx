@@ -18,7 +18,7 @@ function CustomHooks() {
   const dispatch = useDispatch<Dispatch>();
   useEffect(() => {
     load(mockRequest().then((res) => console.log(res)));
-  }, []);
+  }, [load]);
   return (
     <Spin spinning={loading}>
       <p>{count}</p>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { shuffleKeyboard } from "../utils";
 
@@ -14,21 +14,26 @@ const shuffleArr = shuffleKeyboard();
 function KeyBoard(props: Props) {
   const [password, setPassword] = useState<number[]>([]);
 
-  function handleAdd(value: number) {
-    const result = password.concat(value);
-    if (password.length < props.passwordCount) {
-      setPassword(result);
-      if (result.length === props.passwordCount) {
-        setPassword([]);
-      }
-      props.handleChange(result);
-    }
-  }
+  const { handleChange, passwordCount } = props;
 
-  function handleDelete() {
+  const handleAdd = useCallback(
+    (value: number) => {
+      const result = password.concat(value);
+      if (password.length < passwordCount) {
+        setPassword(result);
+        if (result.length === passwordCount) {
+          setPassword([]);
+        }
+        handleChange(result);
+      }
+    },
+    [handleChange, password, passwordCount]
+  );
+
+  const handleDelete = useCallback(() => {
     setPassword(password.slice(0, -1));
-    props.handleChange(password.slice(0, -1));
-  }
+    handleChange(password.slice(0, -1));
+  }, [handleChange, password]);
 
   return (
     <div
@@ -75,7 +80,7 @@ KeyBoard.defaultProps = {
   visible: false,
   passwordCount: 6,
   className: "",
-  handleChange: (arr: number[]) => {}
+  handleChange: (arr: number[]) => {},
 };
 
 export default KeyBoard;

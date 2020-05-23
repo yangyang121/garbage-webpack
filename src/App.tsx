@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Switch,
   Route,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
 } from "react-router-dom";
 import { Menu } from "antd";
 import "./app.less";
@@ -16,12 +16,15 @@ function App(props: RouteComponentProps<{}>) {
 
   useEffect(() => {
     setCurrent(props.location.pathname.split("/")[1] || "home");
-  }, []);
+  }, [props.location.pathname]);
 
-  function handleClick(e: any) {
-    props.history.push(`/${e.key}`);
-    setCurrent(e.key);
-  }
+  const handleClick = useCallback(
+    (e: any) => {
+      props.history.push(`/${e.key}`);
+      setCurrent(e.key);
+    },
+    [props.history]
+  );
   return (
     <>
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">

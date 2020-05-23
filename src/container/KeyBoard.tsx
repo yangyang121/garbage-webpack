@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import KeyBoard from "../component/KeyBoard";
 import { Button } from "antd";
 
 function KeyBoardWrap() {
   const [visible, setVisible] = useState<boolean>(false);
   const passwordCount = 6;
-  function handleChange(arr: number[]) {
+  const handleChange = useCallback((arr: number[]) => {
     console.log("change", arr);
     if (arr.length === passwordCount) {
       setVisible(false);
     }
-  }
+  }, []);
 
   return (
     <>
