@@ -29,7 +29,7 @@ export const limitRequest = (
   let index = 0;
   let completeIndex = 0;
   const handleRequest = (data: IRequest) => {
-    mockRequest(data.url).then(res => {
+    mockRequest(data.url).then((res) => {
       completeIndex++;
       data.cb && data.cb(res);
       index < requestArr.length && handleRequest(requestArr[index++]);
@@ -86,11 +86,31 @@ export const convertToRMB = (count: number) => {
   }
 
   if (count % 100 === 0) {
-    result += "元整"
+    result += "元整";
   } else {
-    result += "元"
+    result += "元";
   }
 
   console.log(result);
-  return result
+  return result;
+};
+
+export const summaryRanges = (arr: number[]) => {
+  if (arr.length <= 1) return arr;
+  let start = 0;
+  let end = 0;
+  let temp = 0;
+  const result: string[] = [];
+  while (end < arr.length) {
+    temp = arr[end++];
+    if (arr[end] - temp !== 1) {
+      if (end - start === 1) {
+        result.push(arr[start].toString());
+      } else {
+        result.push(`${arr[start]}->${temp}`);
+      }
+      start = end;
+    }
+  }
+  return result;
 };
