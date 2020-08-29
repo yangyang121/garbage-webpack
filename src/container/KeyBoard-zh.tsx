@@ -16,7 +16,7 @@ function KeyBoardWrap() {
     <>
       {!visible && (
         <Button type="primary" onClick={() => setVisible(true)}>
-          pay
+          支付
         </Button>
       )}
       <KeyBoard
