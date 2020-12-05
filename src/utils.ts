@@ -289,3 +289,24 @@ export const topKQuickSort = (arr: number[], k: number) => {
   console.log(arr)
   return arr.slice(0, k)
 }
+
+export const expand = (obj: any) => {
+  const ans: any = {}
+  function dfs(data: any, path: string) {
+    if (typeof data === "object") {
+      if (Array.isArray(data)) {
+        for (let i = 0; i < data.length; i++) {
+          dfs(data[i], `${path}[${i}]`)
+        }
+      } else {
+        for (let key in data) {
+          dfs(data[key], `${path ? path + "." : path}${key}`)
+        }
+      }
+    } else {
+      ans[path] = data
+    }
+  }
+  dfs(obj, "")
+  console.log(ans)
+}
