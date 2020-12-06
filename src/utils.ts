@@ -309,4 +309,5 @@ export const expand = (obj: any) => {
   }
   dfs(obj, "")
   console.log(ans)
+  return ans
 }
