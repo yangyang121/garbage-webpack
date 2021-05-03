@@ -30,8 +30,8 @@ function App(props: RouteComponentProps<{}>) {
   return (
     <>
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-        <Menu.Item key="home">Home</Menu.Item>
-        <Menu.Item key="keyboard">Keyboard</Menu.Item>
+        <Menu.Item key="home">{lang === "en" ? "Home" : "首页"}</Menu.Item>
+        <Menu.Item key="keyboard">{lang === "en" ? "Keyboard" : "键盘"}</Menu.Item>
       </Menu>
       <Button
         onClick={() => setLang(lang === "en" ? "zh" : "en")}
